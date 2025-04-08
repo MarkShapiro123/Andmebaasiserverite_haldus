@@ -100,3 +100,24 @@ VALUES ('Danila Shapiro', '2021-12-4' , '543678', 170.2, 0, 2, 1);
 
 SELECT * from inimene join auto
 ON inimene.autoID=auto.autoID;
+
+INSERT INTO elukoht(elukoht, maakond)
+VALUES ('Narva', 'Ida-Virumaa'),
+       ('Viljandi', 'Viljandimaa'),
+       ('Rakvere', 'Lääne-Virumaa');
+
+INSERT INTO auto
+(autoNr, mudell, mark, vaasta)
+VALUES ('512ABC', 'Civic', 'Honda', 2023);
+
+INSERT INTO auto
+(autoNr, mudell, mark, vaasta)
+VALUES ('834XYZ', 'Model 3', 'Tesla', 2024);
+
+INSERT INTO auto
+(autoNr, mudell, mark, vaasta)
+VALUES ('178MKL', 'Octavia', 'Škoda', 2022);
+
+INSERT INTO auto
+(autoNr, mudell, mark, vaasta)
+VALUES ('909DFG', 'Mustang', 'Ford', 2021);
