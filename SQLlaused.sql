@@ -152,3 +152,17 @@ ADD Constraint fk_tyyp
 FOREIGN KEY (tyypID)
 references tyyp(tyypID);
 
+ALTER TABLE loom 
+MODIFY COLUMN kaal VARCHAR(10);
+
+INSERT INTO loom (nimi, kirjeldus, kaal)
+VALUES ('Cherniy', 'talle meeldib süüa', '7.4KG'),
+('Sharik', 'väga lahke ja sõnakuulelik', '40.8KG'),
+('Natashka', 'sigalahe', '800G'),
+('Drogon', 'armastab päikese käes peesitada', '200G'),
+('ChillGuy', 'lihtsalt tšillib', '45.3KG'),
+('Markus', 'lihtsalt Markus', '650KG');
+
+ALTER TABLE inimene ADD loomID int;
+
+
