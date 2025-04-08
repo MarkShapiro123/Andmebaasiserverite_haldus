@@ -136,4 +136,4 @@ VALUES ('kass', 'must'),
 ('kilpkonn', 'aeglane'),
 ('sisalik', 'kiire'),
 ('kapübara', 'lahke'),
-('põder', 'kuri'),
+('põder', 'kuri');
