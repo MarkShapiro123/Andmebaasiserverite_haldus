@@ -8,9 +8,9 @@ CREATE DATABASE MarkShapiroLOGITpv23;
 USE MarkShapiroLOGITpv23;
 
 --tabeli loomine
---identity(1,1) - ise täidab tabeli 1,2,3,...
+--AUTO_INCREMENT - ise täidab tabeli 1,2,3,...
 CREATE TABLE inimene(
-inimeneID int Primary Key identity(1,1),
+inimeneID int Primary Key AUTO_INCREMENT,
 nimi varchar(50) unique,
 synniaeg date,
 telefon char(12),
@@ -41,7 +41,7 @@ VALUES
 SELECT * FROM inimene;
 --tabel elukoht
 CREATE TABLE elukoht(
-elukohtID int PRIMARY KEY identity(1,1),
+elukohtID int PRIMARY KEY AUTO_INCREMENT,
 elukoht varchar(50) UNIQUE,
 maakond varchar(50)
 );
@@ -71,7 +71,7 @@ SELECT inimene.nimi, inimene.synniaeg, elukoht.elukoht from inimene join elukoht
 ON inimene.elukohtID=elukoht.elukohtID;
 --tabel auto loomine
 CREATE TABLE auto(
-autoID int PRIMARY KEY identity(1,1),
+autoID int PRIMARY KEY AUTO_INCREMENT,
 autoNr varchar(30) UNIQUE,
 mudell varchar(30),
 mark varchar(30),
