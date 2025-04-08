@@ -121,3 +121,19 @@ VALUES ('178MKL', 'Octavia', 'Škoda', 2022);
 INSERT INTO auto
 (autoNr, mudell, mark, vaasta)
 VALUES ('909DFG', 'Mustang', 'Ford', 2021);
+
+
+CREATE TABLE tyyp
+( tyypID int PRIMARY KEY AUTO_INCREMENT,
+tyyp char(30) UNIQUE,
+kirjeldus char(40)
+);
+
+INSERT INTO tyyp
+(tyyp, kirjeldus)
+VALUES ('kass', 'must'),
+('koer', 'valge'),
+('kilpkonn', 'aeglane'),
+('sisalik', 'kiire'),
+('kapübara', 'lahke'),
+('põder', 'kuri'),
