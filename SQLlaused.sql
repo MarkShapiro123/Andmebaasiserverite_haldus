@@ -137,3 +137,18 @@ VALUES ('kass', 'must'),
 ('sisalik', 'kiire'),
 ('kapübara', 'lahke'),
 ('põder', 'kuri');
+
+CREATE TABLE loom
+( loomID int PRIMARY KEY AUTO_INCREMENT,
+nimi char(30),
+kirjeldus char(40),
+kaal decimal(5,2)
+);
+
+ALTER TABLE loom ADD tyypID int;
+
+ALTER TABLE loom
+ADD Constraint fk_tyyp
+FOREIGN KEY (tyypID)
+references tyyp(tyypID);
+
