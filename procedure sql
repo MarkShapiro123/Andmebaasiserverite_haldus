@@ -1,0 +1,30 @@
+CREATE DATABASE proceduurLOGIT;
+USE proceduurLOGIT;
+
+CREATE TABLE FILMID(
+filmID int primary key identity(1,1),
+filmNimi varchar(30) unique,
+filmPikkus int,
+rezissor varchar(30)
+);
+SELECT * from filmid
+
+INSERT INTO filmid(filmNimi, FilmPikkus, rezissor)
+VALUES ('Minecraft', 120, 'Jared Hess');
+
+--protseduur mis lisab uus film ja kohe näitab tabelis (INSERT, SELECT)
+CREATE PROCEDURE lisaFilm
+@nimi varchar(30),
+@pikkus int,
+@rezissor varchar(30)
+AS
+BEGIN
+INSERT INTO filmid(filmNimi, FilmPikkus, rezissor)
+VALUES (@nimi, @pikkus, @rezissor);
+SELECT * from filmid;
+END;
+
+--kutse
+EXEC lisaFilm 'Bob ja Bobek', 120, 'test';
+
+DROP Procedure lisaFilm;
