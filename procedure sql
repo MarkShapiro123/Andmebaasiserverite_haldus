@@ -1,17 +1,3 @@
-CREATE DATABASE proceduurLOGIT;
-USE proceduurLOGIT;
-
-CREATE TABLE FILMID(
-filmID int primary key identity(1,1),
-filmNimi varchar(30) unique,
-filmPikkus int,
-rezissor varchar(30)
-);
-SELECT * from filmid
-
-INSERT INTO filmid(filmNimi, FilmPikkus, rezissor)
-VALUES ('Minecraft', 120, 'Jared Hess');
-
 --protseduur mis lisab uus film ja kohe näitab tabelis (INSERT, SELECT)
 CREATE PROCEDURE lisaFilm
 @nimi varchar(30),
@@ -26,5 +12,113 @@ END;
 
 --kutse
 EXEC lisaFilm 'Bob ja Bobek', 120, 'test';
+--uus proceduur
+CREATE PROCEDURE kustutaFilm
+@id int
+AS
+BEGIN
+SELECT * from filmid;
+DELETE FROM filmid WHERE filmID=@id;
+SELECT * from filmid;
+END;
+--kutse
+EXEC kustutaFilm 1;
+EXEC kustutaFilm @id=1;
 
-DROP Procedure lisaFilm;
+--proceduur, mis uuendab filmiPikkus
+CREATE PROCEDURE uuendaFilmiPikkus
+AS
+BEGIN
+SELECT * FROM filmid;
+UPDATE filmid SET filmPikkus=filmPikkus*1.05;
+SELECT * FROM filmid;
+END
+
+--kutse
+EXEC uuendaFilmiPikkus;
+
+--proceduur, mis uuendab filmiPikkus. kasutaja sisestav väärtus
+CREATE PROCEDURE uuendaFilmiPikkus2
+@arv decimal(5,2)
+AS
+BEGIN
+SELECT * FROM filmid;
+UPDATE filmid SET filmPikkus=filmPikkus*@arv;
+SELECT * FROM filmid;
+END
+--kutse
+EXEC uuendaFilmiPikkus2 @arv=0.5;
+-- protseduur, mis näitab filmid esimese täahe järgi
+CREATE PROCEDURE filmid1taht
+@taht char(1)
+AS
+BEGIN
+SELECT * FROM filmid
+WHERE filmNimi LIKE CONCAT(@taht, '%');
+END
+
+--kutse
+EXEC filmid1taht 'J';
+-- protseduur, mis näitab filmid mis sisaldavad nimes sisestatud täht
+CREATE PROCEDURE filmidSisaldabTaht
+@taht char(1)
+AS
+BEGIN
+SELECT * FROM filmid
+WHERE filmNimi LIKE CONCAT('%', @taht, '%');
+END
+
+--kutse
+EXEC filmidSisaldabTaht 'A';
+-- protseduur, mis näitab keskmide filmide pikkus
+CREATE PROCEDURE keskminePikkus
+AS
+BEGIN
+SELECT AVG(filmPikkus) as 'Keskmine Pikkus' FROM filmid
+END
+--kutse
+EXEC keskminePikkus;
+
+USE [proceduurLOGIT]
+GO
+/****** Object:  StoredProcedure [dbo].[keskminePikkus]    Script Date: 15.04.2025 12:30:26 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[keskminePikkus]
+AS
+BEGIN
+SELECT AVG(filmPikkus) as 'Keskmine Pikkus',
+MAX(filmPikkus) as 'max pikkus', 
+MIN(filmPikkus) as 'min pikkus',
+COUNT(filmNimi) as 'Filmide kogus'
+FROM filmid
+END
+--KEERULINE PROTSEDUUR
+--ALTER TABLE tabelinimi ADD veerg tyyp --- veergu lisamine
+--ALTER TABLE tabelinimi DROP veerg --- veergu kustutamine
+CREATE PROCEDURE tabeliMuudatus
+@tegevus varchar(10),
+@tabelinimi varchar(25),
+@veerunimi varchar(25),
+@tyyp varchar(25) =null
+AS
+BEGIN
+DECLARE @sqltegevus as varchar(max)
+set @sqltegevus=case 
+when @tegevus='add' then concat('ALTER TABLE ', 
+@tabelinimi, ' ADD ', @veerunimi, ' ', @tyyp)
+when @tegevus='drop' then concat('ALTER TABLE ', 
+@tabelinimi, ' DROP COLUMN ', @veerunimi)
+END;
+print @sqltegevus;
+begin 
+EXEC (@sqltegevus);
+END
+END;
+--добавление столбца
+EXEC tabeliMuudatus @tegevus='add', @tabelinimi='filmid', @veerunimi='test', @tyyp='int';
+--удаление столбца
+EXEC tabeliMuudatus @tegevus='drop', @tabelinimi='filmid', @veerunimi='test';
+select * from filmid;
