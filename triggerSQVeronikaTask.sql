@@ -128,3 +128,62 @@ select * from riieteNimekiri;
 grant all on riieteNimekiri to opilane1
 grant all on disaineriteNimekiri to opilane1
 revoke select on logg to opilane1
+
+
+create procedure Lisamine
+@Nimi varchar(30),
+@ostukuupäev date,
+@hind int,
+@disainerID int
+AS
+BEGIN
+INSERT INTO riieteNimekiri(riieteNimi, ostukuupäev, hind, disaineriteID)
+VALUES(@Nimi,@ostukuupäev,@hind,@disainerID);
+select * from riieteNimekiri;
+select * from disaineriteNimekiri;
+END;
+
+exec Lisamine 'test','2025-05-25',100,1;
+select * from logg;
+
+
+CREATE PROCEDURE search
+@disainerID INT
+AS
+BEGIN
+SELECT riieteNimekiri.riieteID,riieteNimekiri.riieteNimi,riieteNimekiri.ostukuupäev,riieteNimekiri.hind,riieteNimekiri.disaineriteID,disaineriteNimekiri.disaineriteNimi AS disainerNimi,disaineriteNimekiri.disaineriteID AS searchID from riieteNimekiri
+INNER JOIN disaineriteNimekiri on disaineriteNimekiri.disaineriteID=riieteNimekiri.disaineriteID
+WHERE riieteNimekiri.disaineriteID=@disainerID
+END;
+drop procedure search
+
+exec search 3;
+
+
+CREATE PROCEDURE search2
+@Nimi varchar(30)
+AS
+BEGIN
+SELECT riieteNimekiri.riieteID,riieteNimekiri.riieteNimi,riieteNimekiri.ostukuupäev,riieteNimekiri.hind,riieteNimekiri.disaineriteID,disaineriteNimekiri.disaineriteNimi AS searchNimi from riieteNimekiri
+INNER JOIN disaineriteNimekiri on disaineriteNimekiri.disaineriteID=riieteNimekiri.disaineriteID
+WHERE disaineriteNimekiri.disaineriteNimi=@Nimi
+END;
+
+select * from disaineriteNimekiri
+
+exec search2 'Mile Tarry';
+
+
+create procedure uuendamine
+@Nimi varchar(30),
+@ID int
+AS
+BEGIN
+update riieteNimekiri set riieteNimi=@nimi
+where riieteID=@ID
+select riieteID, riieteNimi, ostukuupäev, hind from riieteNimekiri
+end;
+
+drop procedure uuendamine
+
+exec uuendamine 'test2',1
